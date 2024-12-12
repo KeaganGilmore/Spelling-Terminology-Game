@@ -1,0 +1,28 @@
+/* src/components/Game.css */
+.game {
+    text-align: left;
+}
+
+.question {
+    margin: 20px 0;
+    font-size: 1.2em;
+}
+
+input {
+    padding: 10px;
+    font-size: 1em;
+    margin-right: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #61dafb;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #21a1f1;
+}
