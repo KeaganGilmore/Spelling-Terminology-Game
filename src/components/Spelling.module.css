@@ -1,0 +1,62 @@
+/* src/components/Spelling.module.css */
+.spellingContainer {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: linear-gradient(135deg, #f6f8f9 0%, #e5ebee 100%);
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    font-family: 'Inter', sans-serif;
+}
+
+.wordContainer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.speakButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 1rem;
+}
+
+.speakButton img {
+    width: 24px;
+    height: 24px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+button[type="submit"] {
+    background: linear-gradient(45deg, #6a11cb 0%, #2575fc 100%);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+button[type="submit"]:hover {
+    transform: scale(1.05);
+}
+
+.results {
+    margin-top: 2rem;
+}
+
+.correct {
+    color: green;
+}
+
+.incorrect {
+    color: red;
+}

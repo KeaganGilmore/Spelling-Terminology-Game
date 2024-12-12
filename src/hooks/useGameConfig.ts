@@ -1,9 +1,12 @@
 // src/hooks/useGameConfig.ts
 import { useState, useEffect } from 'react';
 import { decryptGameSeed } from '../utils/api';
+import { useAuth } from './useAuth';
+import { STORAGE_KEYS } from '../config/storage_names';
 import type { GameConfig } from '../types';
 
 export const useGameConfig = () => {
+    const { token, error: authError } = useAuth();
     const [config, setConfig] = useState<GameConfig | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -19,7 +22,7 @@ export const useGameConfig = () => {
                 }
 
                 // Save the seed in local storage
-                localStorage.setItem('gameSeed', seed);
+                localStorage.setItem(STORAGE_KEYS.GAME_SEED, seed);
 
                 const gameConfig = await decryptGameSeed(seed);
                 setConfig(gameConfig);
@@ -33,5 +36,5 @@ export const useGameConfig = () => {
         initConfig();
     }, []);
 
-    return { config, loading, error };
+    return { config, loading, error: error || authError };
 };

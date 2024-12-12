@@ -1,7 +1,7 @@
 {
   "name": "react_template",
   "version": "0.1.0",
-  "homepage": "https://lx-library.github.io/React-Game-Template",
+  "homepage": "https://keagangilmore.github.io/Spelling-Terminology-Game",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",

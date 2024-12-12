@@ -1,16 +1,14 @@
-import { jwtDecode } from 'jwt-decode';
+// src/utils/authDB.ts
+import { STORAGE_KEYS } from '../config/storage_names';
 import Cookies from 'js-cookie';
-
-const STORAGE_KEY = 'authToken';
-const COOKIE_NAME = 'authToken';
 
 export const saveToken = (token: string) => {
     try {
         // Save to localStorage
-        localStorage.setItem(STORAGE_KEY, token);
+        localStorage.setItem(STORAGE_KEYS.STUDENT_TOKEN, token);
 
         // Save to cookie without 'secure' flag
-        Cookies.set(COOKIE_NAME, token, { sameSite: 'strict' });
+        Cookies.set(STORAGE_KEYS.AUTH_COOKIE, token, { sameSite: 'strict' });
 
         console.log('Token saved successfully');
     } catch (error) {
@@ -18,13 +16,14 @@ export const saveToken = (token: string) => {
         throw error;
     }
 };
+
 export const getToken = (): string | null => {
     try {
         // Get from localStorage
-        const tokenFromStorage = localStorage.getItem(STORAGE_KEY);
+        const tokenFromStorage = localStorage.getItem(STORAGE_KEYS.STUDENT_TOKEN);
 
         // Get from cookie
-        const tokenFromCookie = Cookies.get(COOKIE_NAME);
+        const tokenFromCookie = Cookies.get(STORAGE_KEYS.AUTH_COOKIE);
         if (tokenFromStorage && tokenFromCookie && tokenFromStorage === tokenFromCookie) {
             return tokenFromStorage;
         }
@@ -48,10 +47,10 @@ export const getToken = (): string | null => {
 export const clearToken = () => {
     try {
         // Clear from localStorage
-        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(STORAGE_KEYS.STUDENT_TOKEN);
 
         // Clear from cookie
-        Cookies.remove(COOKIE_NAME);
+        Cookies.remove(STORAGE_KEYS.AUTH_COOKIE);
 
         console.log('Token cleared successfully');
     } catch (error) {

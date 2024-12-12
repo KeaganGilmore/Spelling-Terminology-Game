@@ -10,10 +10,12 @@ interface RequestOptions {
 }
 
 export const sendRequest = async ({ endpoint, method, body, responseType = 'json' }: RequestOptions): Promise<any> => {
+    console.log('endpoint', endpoint);
     const token = getToken();
     const headers: HeadersInit = {
         'Content-Type': 'application/json',
     };
+    console.log('body', body);
 
     if (token) {
         headers['Authorization'] = `Bearer ${token}`;

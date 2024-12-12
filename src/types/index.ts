@@ -6,15 +6,7 @@ export interface GameState {
     userAnswer?: string;
 }
 
-// src/types/index.ts
-export interface GameConfig {
-    gameType: string;
-    difficulty: string;
-    timeLimit?: number;
-    images?: ImageAsset[];
-    currentQuestion?: string;
-    seed: string; // Add this line
-}
+
 export interface ImageAsset {
     id: string;
     url: string;
@@ -37,4 +29,22 @@ export interface Question {
 export interface GameData {
     seed: string;
     questions: Question[];
+}
+
+// src/types/index.ts
+export interface DecryptedSeed {
+    difficulty?: number;
+    words: {
+        [key: string]: string;
+    };
+}
+
+export interface GameConfig {
+    seedData: DecryptedSeed;
+    gameType: string;
+    difficulty: string;
+    timeLimit?: number;
+    images?: ImageAsset[];
+    currentQuestion?: string;
+    seed: string;
 }
