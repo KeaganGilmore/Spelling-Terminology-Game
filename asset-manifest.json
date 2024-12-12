@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Spelling-Terminology-Game/static/css/main.caf10bb3.css",
+    "main.js": "/Spelling-Terminology-Game/static/js/main.c2c16ee3.js",
+    "static/js/453.55c15a21.chunk.js": "/Spelling-Terminology-Game/static/js/453.55c15a21.chunk.js",
+    "index.html": "/Spelling-Terminology-Game/index.html",
+    "main.caf10bb3.css.map": "/Spelling-Terminology-Game/static/css/main.caf10bb3.css.map",
+    "main.c2c16ee3.js.map": "/Spelling-Terminology-Game/static/js/main.c2c16ee3.js.map",
+    "453.55c15a21.chunk.js.map": "/Spelling-Terminology-Game/static/js/453.55c15a21.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.caf10bb3.css",
+    "static/js/main.c2c16ee3.js"
+  ]
+}
