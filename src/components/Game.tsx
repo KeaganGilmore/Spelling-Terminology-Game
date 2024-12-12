@@ -1,12 +1,14 @@
+// src/components/Game.tsx
 import React, { useState, useEffect } from 'react';
 import { useGameConfig } from '../hooks/useGameConfig';
 import StudySession from './StudySession';
+import SpellingTest from './SpellingTest';
 import DefinitionEntry from './DefinitionEntry';
 import './Game.css';
 
 export const Game: React.FC = () => {
     const { config, loading, error } = useGameConfig();
-    const [gameState, setGameState] = useState<'start' | 'study' | 'definition'>('start');
+    const [gameState, setGameState] = useState<'start' | 'study' | 'spelling' | 'definition'>('start');
 
     useEffect(() => {
         console.log('Game component mounted');
@@ -32,7 +34,12 @@ export const Game: React.FC = () => {
     };
 
     const handleStudyComplete = () => {
-        console.log('Study session complete, starting definition entry');
+        console.log('Study session complete, starting spelling test');
+        setGameState('spelling');
+    };
+
+    const handleSpellingComplete = () => {
+        console.log('Spelling test complete, starting definition entry');
         setGameState('definition');
     };
 
@@ -54,6 +61,8 @@ export const Game: React.FC = () => {
                 </div>
             ) : gameState === 'study' ? (
                 <StudySession seedData={config.seedData} onComplete={handleStudyComplete} />
+            ) : gameState === 'spelling' ? (
+                <SpellingTest seedData={config.seedData} onComplete={handleSpellingComplete} />
             ) : (
                 <DefinitionEntry seedData={config.seedData} />
             )}
