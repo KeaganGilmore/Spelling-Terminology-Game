@@ -1,4 +1,3 @@
-// src/components/Game.tsx
 import React, { useState, useEffect } from 'react';
 import { useGameConfig } from '../hooks/useGameConfig';
 import StudySession from './StudySession';
@@ -7,8 +6,6 @@ import './Game.css';
 
 export const Game: React.FC = () => {
     const { config, loading, error } = useGameConfig();
-    const [score, setScore] = useState(0);
-    const [userAnswer, setUserAnswer] = useState('');
     const [gameState, setGameState] = useState<'start' | 'study' | 'definition'>('start');
 
     useEffect(() => {
@@ -27,6 +24,10 @@ export const Game: React.FC = () => {
 
     const handleStart = () => {
         console.log('Starting study session');
+        if (!config || !config.seedData || !config.seedData.words || Object.keys(config.seedData.words).length === 0) {
+            console.error('No words found in seed data');
+            return; // We can also show a message on the UI here if needed
+        }
         setGameState('study');
     };
 
@@ -34,6 +35,15 @@ export const Game: React.FC = () => {
         console.log('Study session complete, starting definition entry');
         setGameState('definition');
     };
+
+    if (!config || !config.seedData || !config.seedData.words || Object.keys(config.seedData.words).length === 0) {
+        return (
+            <div className="game">
+                <h2>No word data found!</h2>
+                <p>Cannot start the game without any words to study.</p>
+            </div>
+        );
+    }
 
     return (
         <div className="game">
@@ -43,9 +53,9 @@ export const Game: React.FC = () => {
                     <button onClick={handleStart}>Start Study Session</button>
                 </div>
             ) : gameState === 'study' ? (
-                config && config.seedData && <StudySession seedData={config.seedData} onComplete={handleStudyComplete} />
+                <StudySession seedData={config.seedData} onComplete={handleStudyComplete} />
             ) : (
-                config && config.seedData && <DefinitionEntry seedData={config.seedData} />
+                <DefinitionEntry seedData={config.seedData} />
             )}
         </div>
     );

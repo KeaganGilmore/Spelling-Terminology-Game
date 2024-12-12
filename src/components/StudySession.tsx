@@ -10,17 +10,15 @@ interface StudySessionProps {
 }
 
 const StudySession: React.FC<StudySessionProps> = ({ seedData, onComplete }) => {
-    console.log('StudySession component rendered with seedData:', seedData);
-
     const difficulty = seedData.difficulty ?? 10;
+    const words = Object.entries(seedData.words || {});
+
+    // Always call hooks at the top-level, unconditionally
     const [currentWordIndex, setCurrentWordIndex] = useState(0);
     const [timeLeft, setTimeLeft] = useState(difficulty);
     const [sessionType, setSessionType] = useState<SessionType>('sequential');
-    const [simultaneousTimeLeft, setSimultaneousTimeLeft] = useState(difficulty * Object.keys(seedData.words).length || 30);
+    const [simultaneousTimeLeft, setSimultaneousTimeLeft] = useState(difficulty * words.length || 30);
     const [completedSession, setCompletedSession] = useState(false);
-
-    const words = Object.entries(seedData.words);
-    console.log('Words to study:', words);
 
     const getDynamicFontSize = (word: string) => {
         const baseSize = 1.8;
@@ -38,23 +36,19 @@ const StudySession: React.FC<StudySessionProps> = ({ seedData, onComplete }) => 
 
     useEffect(() => {
         setSessionType(Math.random() < 0.5 ? 'sequential' : 'simultaneous');
-        console.log('Session type set to:', sessionType);
     }, []);
 
     const goToNextWord = () => {
-        console.log('Going to next word. Current index:', currentWordIndex);
         if (currentWordIndex < words.length - 1) {
             const additionalTime = timeLeft;
-            setCurrentWordIndex(currentWordIndex + 1);
+            setCurrentWordIndex((prev) => prev + 1);
             setTimeLeft(Math.min(
                 difficulty + additionalTime,
                 difficulty * 2
             ));
-            console.log('Next word index:', currentWordIndex + 1, 'New time left:', timeLeft);
         } else {
             setCompletedSession(true);
             onComplete();
-            console.log('Study session completed');
         }
     };
 
@@ -67,7 +61,7 @@ const StudySession: React.FC<StudySessionProps> = ({ seedData, onComplete }) => 
                     } else {
                         clearInterval(timer);
                         if (currentWordIndex < words.length - 1) {
-                            setCurrentWordIndex(currentWordIndex + 1);
+                            setCurrentWordIndex((prev) => prev + 1);
                             setTimeLeft(difficulty);
                         } else {
                             setCompletedSession(true);
@@ -95,10 +89,19 @@ const StudySession: React.FC<StudySessionProps> = ({ seedData, onComplete }) => 
 
             return () => clearInterval(timer);
         }
-    }, [currentWordIndex, difficulty, words.length, sessionType]);
+    }, [currentWordIndex, difficulty, words.length, sessionType, onComplete]);
+
+    // Handle empty words scenario in the return statement
+    if (words.length === 0) {
+        return (
+            <div className={styles.studyContainer}>
+                <h1>No words to study</h1>
+                <p>Please provide valid seedData with words.</p>
+            </div>
+        );
+    }
 
     if (completedSession) {
-        console.log('Rendering completed session overlay');
         return (
             <div className={styles.completedOverlay}>
                 <h1 className={styles.completedTitle}>Study Session Complete!</h1>
@@ -107,7 +110,6 @@ const StudySession: React.FC<StudySessionProps> = ({ seedData, onComplete }) => 
         );
     }
 
-    console.log('Rendering study session UI');
     return (
         <div className={styles.studyContainer}>
             <div className={styles.timerTopRight}>
@@ -148,7 +150,7 @@ const StudySession: React.FC<StudySessionProps> = ({ seedData, onComplete }) => 
                 </div>
             ) : (
                 <div className={styles.simultaneousGrid}>
-                    {words.map(([word, translation], index) => (
+                    {words.map(([word, translation]) => (
                         <div
                             key={word}
                             className={styles.simultaneousWordCard}
